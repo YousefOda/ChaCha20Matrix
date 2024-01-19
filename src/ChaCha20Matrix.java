@@ -260,10 +260,10 @@ public class ChaCha20Matrix
             }
 
             // Constant
-            for(int i = 0; i < 4; ++i)
-            {
-                S[0][i] = (int)(long)sc.nextLong();
-            }
+            // for(int i = 0; i < 4; ++i)
+            // {
+            //     S[0][i] = (int)(long)sc.nextLong();
+            // }
 
             // Close file scanner
             System.out.println("Done reading file!");
@@ -294,14 +294,6 @@ public class ChaCha20Matrix
                 S[2][i] = k.intValue();
                 pw.println(Integer.toUnsignedString(k.intValue()));
             }
-
-            // And we do the constant
-            for(int i = 0; i < 4; ++i)
-            {
-                Long f = rand.nextLong(1, maxUnsignedInt);
-                S[0][i] = f.intValue();
-                pw.println(Integer.toUnsignedString(f.intValue()));
-            }
             
             // Close the print and file writers
             System.out.println("Done creating file!");
@@ -318,6 +310,15 @@ public class ChaCha20Matrix
             Long n = rand.nextLong(1, maxUnsignedInt);
             S[3][i] = n.intValue();
         }
+
+        // And we do the constant
+        // These are the public constants that Dan Bernstein set, known as
+        // a "nothing-up-my-sleeve" number:
+        // expand 32-byte k
+        S[0][0] = (int)10112011297L;
+        S[0][1] = (int)1101003251;
+        S[0][2] = (int)504598121;
+        S[0][3] = (int)11610132107L;
 
         // The last is the counter which will be set when we give S
         // to the PRBG
@@ -345,13 +346,14 @@ public class ChaCha20Matrix
 
         for(int i = 0; i < message.length(); ++i)
         {
+            // Print out the integer representation of the char
+            // (.txt may not be able to support UTF-16)
             char a = (char)(message.charAt(i) ^ keystream.charAt(i));
-            System.out.println("message XOR keystream:");
-            System.out.println("message: " + Integer.toBinaryString(message.charAt(i)));
-            System.out.println("keystream: " + Integer.toBinaryString(keystream.charAt(i)));
-            System.out.println("ciphertext: " + Integer.toBinaryString(a));
-            System.out.println();
-
+            // System.out.println("message XOR keystream:");
+            // System.out.println("message: " + Integer.toBinaryString(message.charAt(i)));
+            // System.out.println("keystream: " + Integer.toBinaryString(keystream.charAt(i)));
+            // System.out.println("ciphertext: " + Integer.toBinaryString(a));
+            // System.out.println();
             pw.println(Integer.valueOf(a));
         }
 
@@ -384,10 +386,10 @@ public class ChaCha20Matrix
         }
 
         // And the constant
-        for(int i = 0; i < 4; ++i)
-        {
-            S[0][i] = (int)(long)sc.nextLong();
-        }
+        S[0][0] = (int)10112011297L;
+        S[0][1] = (int)1101003251;
+        S[0][2] = (int)504598121;
+        S[0][3] = (int)11610132107L;
 
         sc.close();
 
